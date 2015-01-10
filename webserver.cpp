@@ -76,6 +76,10 @@ void HttpWebServer::setEnvs(HttpRequest const & request, std::unordered_map<std:
 	env.insert(make_pair("QUERY_PATH", std::move(path)));
 
 	std::string params = std::string{request.m_params};
+	if (request.m_body.size() > 0)
+	{
+		params += std::string{request.m_body.data()};
+	}
 	env.insert(make_pair("QUERY_PARAMS", std::move(params)));
 }
 
@@ -130,6 +134,7 @@ void HttpWebServer::handleIncoming(SockWrapper&& wrapper)
 		if (requestR.m_type == POST)
 		{
 			int length = 0;
+
 			std::shared_ptr<HttpHeader> header = requestR.getHeader("Content-Length");
 			if (header == nullptr)
 			{
@@ -145,7 +150,18 @@ void HttpWebServer::handleIncoming(SockWrapper&& wrapper)
 				throw HttpException{"Can't parse content length"};
 			}
 
+			header = requestR.getHeader("Content-Type");
+			if (header == nullptr)
+			{
+				throw HttpException{"Need Content Type"};
+			}
+			if (header->m_value.compare("application/x-www-form-urlencoded") != 0)
+			{
+				throw HttpException{"Unsupported Header Type"};
+			}
+
 			wrapper.recvAll(requestR.m_body, length);
+			requestR.m_body.push_back('\0');
 		}
 
 		if (requestR.m_path.compare("/") == 0)

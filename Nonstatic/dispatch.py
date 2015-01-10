@@ -5,8 +5,8 @@ path = os.environ['QUERY_PATH']
 
 # remove leading slashes
 path = path.strip('/')
-paramlist = os.environ['QUERY_PARAMS']
-paramlist = paramlist.split('?')
+paramlist = os.environ['QUERY_PARAMS']	
+paramlist = paramlist.split('&')
 
 params = {}
 for setting in paramlist:
