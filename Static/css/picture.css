@@ -1,0 +1,33 @@
+.bs-docs-masthead {
+	    	background:  url("../images/ref4.jpg") no-repeat center center; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+}
+
+#second {
+	    	background:  url("../images/usq.jpg") no-repeat center center; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+}
+
+#second .container {
+	background-color:rgba(0,0,0,0.45);
+	-moz-border-radius: 5px;
+  	border-radius: 5px;
+}
+
+
+.bs-docs-masthead .container {
+	background-color:rgba(0,0,0,0.33);
+	-moz-border-radius: 5px;
+  	border-radius: 5px;
+}
+
+.img-responsive {
+    margin: 0 auto;
+    padding: 5px;
+}
