@@ -5,3 +5,5 @@ webserver
 *.o
 *.log
 *.cfg
+.DS_STORE
+*.dSYM/

@@ -1,18 +1,21 @@
 CC=g++
 CFLAGS=-std=c++11 -g
 ECFLAGS=-pthread
-SERVER=server.o 
-SOCKET=socket_link2.o socket_utils2.o 
-WEBSERVER=webserver.o ProcessManager.o server_utils.o
-HTTP=http.o
+SERVER=server/server.o 
+SOCKET=socket/socket_link2.o socket/socket_utils2.o 
+WEBSERVER=web/webserver.o web/ProcessManager.o web/server_utils.o web/http.cpp
 
 all: webserver 
 
-%.o: %.cpp
-	$(CC) -c -o $@ $< $(CFLAGS) $(ECFLAGS)
+webserver: $(WEBSERVER) $(SERVER) $(SOCKET)
+	cd web; make;
+	cd server; make;
+	cd socket; make;
 
-webserver: $(WEBSERVER) $(HTTP) $(SERVER) $(SOCKET)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
-	rm -rf webserver *.o
+	rm -rf webserver
+	cd web; make clean;
+	cd server; make clean;
+	cd socket; make clean;
