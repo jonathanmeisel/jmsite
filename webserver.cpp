@@ -87,6 +87,12 @@ void HttpWebServer::sendResponseFunction(SockWrapper&& wrapper, HttpRequest cons
 {
 	thread_local ProcessManager pm{m_bindir};
 
+	std::string log;
+	log += request.m_path;
+	log += " from ip: ";
+	log += wrapper.getAddress();
+	m_messages->push(log);
+
 	// Set environmental variables
 	std::unordered_map<std::string, std::string> env{};
 	setEnvs(request, env);
