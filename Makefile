@@ -1,21 +1,21 @@
 CC=g++
 CFLAGS=-std=c++11 -g
 ECFLAGS=-pthread
-SERVER=server/server.o 
+WEBDIR=web
+SERVERDIR=server
+SOCKETDIR=socket
+SERVER=server/server.o server/DateTime.o
 SOCKET=socket/socket_link2.o socket/socket_utils2.o 
 WEBSERVER=web/webserver.o web/ProcessManager.o web/server_utils.o web/http.cpp
 
-all: webserver 
-
-webserver: $(WEBSERVER) $(SERVER) $(SOCKET)
-	cd web; make;
-	cd server; make;
-	cd socket; make;
-
-	$(CC) -o $@ $^ $(CFLAGS)
+all:
+	make -C $(SOCKETDIR)
+	make -C $(WEBDIR)
+	make -C $(SERVERDIR)
+	$(CC) -o webserver $(SERVER) $(SOCKET) $(WEBSERVER) $(CFLAGS)
 
 clean:
 	rm -rf webserver
-	cd web; make clean;
-	cd server; make clean;
-	cd socket; make clean;
+	make -C $(WEBDIR) clean
+	make -C $(SERVERDIR) clean
+	make -C $(SOCKETDIR) clean

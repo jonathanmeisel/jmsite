@@ -7,6 +7,7 @@
 
 #include "server_utils.h"
 #include "ProcessManager.h"
+#include "DateTime.h"
 #include <iostream>
 #include <string.h>
 #include <fstream>
@@ -87,16 +88,27 @@ void HttpWebServer::sendResponseFunction(SockWrapper&& wrapper, HttpRequest cons
 {
 	thread_local ProcessManager pm{m_bindir};
 
+	// write out message to the log file
 	std::string log;
 	log += request.m_path;
-	log += " from ip: ";
+	log += "\n\t from: ";
 	log += wrapper.getAddress();
+	log += "\n\t at: ";
+
+	// add the time to the log
+	try {log += DateTime{}.toString(); }
+	catch (...) {}
+
 	m_messages->push(log);
 
 	// Set environmental variables
 	std::unordered_map<std::string, std::string> env{};
 	setEnvs(request, env);
 
+	// add address to env variables
+	env.insert(make_pair("ADDRESS", wrapper.getAddress()));
+
+	// start process running the command
 	ProcessData child = pm.startNewCommand(m_gateway, env);
 
 	std::vector<char> message;

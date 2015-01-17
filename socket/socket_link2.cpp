@@ -352,16 +352,16 @@ SockWrapper SockServer::acceptConnection()
 	struct sockaddr_storage their_addr; // connector's address information
 	socklen_t sin_size = sizeof their_addr;
 
-	struct sockaddr_in *sin = (struct sockaddr_in *)&their_addr;
-	int new_fd = accept(m_impl->m_fd, (struct sockaddr *)sin, &sin_size);
+	struct sockaddr *sin = (struct sockaddr *)&their_addr;
+	int new_fd = accept(m_impl->m_fd, sin, &sin_size);
 
 	if (new_fd == -1)
 	{
 		throw SocketError("Couldn't accept");
 	}
 
-	std::string ip = std::string(inet_ntoa(sin->sin_addr));
-	std::string port = std::to_string(sin->sin_port);
+	//std::string ip = std::string(inet_ntoa(sin->sin_addr));
+	//std::string port = std::to_string(sin->sin_port);
 
 	fd_set_timeout(new_fd, m_impl->m_timeout, SEND);
 	fd_set_timeout(new_fd, m_impl->m_timeout, RECV);
@@ -376,7 +376,12 @@ SockWrapper SockServer::acceptConnection()
 	SockWrapper wrapper{};
 	wrapper.m_impl = std::unique_ptr<SockWrapper::impl>{new SockWrapper::impl{}};
 	wrapper.m_impl->m_fd = new_fd;
-	wrapper.m_impl->address = ip;
-	wrapper.m_impl->port = port;
+
+	char hostname [256];
+	if (getnameinfo(sin, sin->sa_len, hostname, 256, NULL, 0, 0) != -1)
+	{
+		wrapper.m_impl->address = std::string{hostname};
+	}
+
 	return std::move(wrapper);
 }

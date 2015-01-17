@@ -1,5 +1,5 @@
 .bs-docs-masthead {
-	    	background:  url("../images/ref4.jpg") no-repeat center center; 
+	    	background:  url("../images/ref2.jpg") no-repeat center center; 
 			-webkit-background-size: cover;
 			-moz-background-size: cover;
 			-o-background-size: cover;
@@ -22,7 +22,7 @@
 
 
 .bs-docs-masthead .container {
-	background-color:rgba(0,0,0,0.33);
+	background-color:rgba(0,0,0,0.15);
 	-moz-border-radius: 5px;
   	border-radius: 5px;
 }

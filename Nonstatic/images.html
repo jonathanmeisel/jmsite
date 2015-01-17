@@ -1,56 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-  <head>
-###header.html
-  <title>Jonathan Meisel Photography</title>
-  </head>
-  <body>
-###navbar.html
-    
+
     <!-- Docs page layout -->
     <main class="bs-docs-masthead images" id="second" role="main">
     <div class="container" id="headercontainer">
     <br><br>
-    <h1>New York</h1>
+    <h1>Photos</h1>
     <br><br>
     </div>
     </main>
 
     <div class="bs-docs-featurette">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-2">
-          </div> 
-          <div class="col-sm-8">
-            <img src="images/cloudless.jpg" class="img-responsive">
-          </div> 
-          <div class="col-sm-2">
-          </div> 
-        </div>
 
-        <div class="row">
-          <div class="col-sm-2">
-          </div> 
-          <div class="col-sm-8">
-            <img src="images/cloudy.jpg" class="img-responsive">
-          </div> 
-          <div class="col-sm-2">
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-2">
-          </div> 
-          <div class="col-sm-8">
-            <img src="images/wburg_stormy.jpg" class="img-responsive">
-          </div> 
-          <div class="col-sm-2">
-          </div>
++ for image in imageslist:
+      <div class="row">
+        <div class="col-sm-2">
+        </div> 
+        <div class="col-sm-8">
+          <img class="img-responsive" src="imagepage/%(image)s">
+        </div> 
+        <div class="col-sm-2">
         </div>
       </div>
+-
     </div>
-
-###footer.html
-  </body>
-
-</html>

@@ -7,4 +7,4 @@ all: socket_link2.o socket_utils2.o
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(CFLAGS) $(ECFLAGS)
 clean:
-	rm *.o
+	rm -rf *.o

@@ -8,4 +8,4 @@ all: webserver.o ProcessManager.o server_utils.o http.o
 	$(CC) -c -o $@ $< $(CFLAGS) $(ECFLAGS) -I ../server -I ../socket
 
 clean:
-	rm *.o
+	rm -rf *.o
