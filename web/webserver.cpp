@@ -91,9 +91,9 @@ void HttpWebServer::sendResponseFunction(SockWrapper&& wrapper, HttpRequest cons
 	// write out message to the log file
 	std::string log;
 	log += request.m_path;
-	log += "\n\t from: ";
+	log += "\t";
 	log += wrapper.getAddress();
-	log += "\n\t at: ";
+	log += "\t";
 
 	// add the time to the log
 	try {log += DateTime{}.toString(); }

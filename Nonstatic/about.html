@@ -1,14 +1,154 @@
 <div class="container"> 
-	<center>
-	<h3>
-	I'm Jonathan Meisel.  And I have <i>something</i> to say.
-	</h3>
-	</center>
-	<div class="row">
-	  <div class="col-sm-3"></div>
-	  <div class="col-sm-6">
-	  	<img src="images/mememe.jpg" class="img-responsive">
-	  </div>
-	  <div class="col-sm-3"></div>
-	</div>
+<div class="row">
+<div class="col-md-9" role="main">
+	<h1 id="about">About this website</h1>
+	<p>This is an (almost) entirely homegrown website.  It runs on top of a simple multi-threaded server implemented in C++ that directly handles all static content.  Dynamic content is generated through python scripts. The python scripts and server interact through a simplified version of the CGI protocol (hopefully both will have full CGI support in the future).  The various components that form the website, most of which can function separately, are listed below.  The code is available on <a href="https://github.com/jonathanmeisel">github</a>.</p>
+
+	<h1 id="SockWrapper">SockWrapper</h2>
+	<p>A C++ wrapper class for unix sockets.  Provides functions for sending and receiving data.  The class closes the socket in its destructor, automatically managing resources.  The following is the SockWrapper API:</p>
+
+	<div class="highlight">
+	<pre><code class="language-html" data-lang="html">
+	<span class="nt">
+	// Open connection to address, with timeout on send/recv/connect
+	SockWrapper(string const & address, string const & port, int timeout);
+
+	// call recv once, or recv exactly size bytes
+	int recvM(vector<char>& recv) const;
+	int recvAll(vector<char>& recv, int size) const;
+
+	// send contents of the array
+	int sendM(vector<char> const & message) const;
+
+	// Get the address and port of this connection
+	string const & getAddress() const;
+	string const & getPort() const;
+
+	void closeSock();
+	</span>
+	</code></pre></div>
+
+	<h1 id="SockServer">SockServer</h2>
+	<p>SockServer corresponds to SockWrapper; it listens on a port for connections, and returns a SockWrapper to the client upon accepting a connection.  The following is the SockServer api:</p>
+
+	<div class="highlight">
+	<pre><code class="language-html" data-lang="html">
+	<span class="nt">
+	// Create server with send/recv timeout listening on port
+	SockServer(string const & port, int timeout);
+
+	// Block until incoming connection
+	SockWrapper acceptConnection();
+	</span>
+	</code></pre></div>
+
+	There are, additionally, several utility functions that add on to the SockWrapper class.
+	<div class="highlight">
+	<pre><code class="language-html" data-lang="html">
+	<span class="nt">
+	// Receive byte by byte until reaching "delimiter", timeout, or maxsize
+	int recvTo(SockWrapper const & wrapper, vector<char>& r,
+			vector<char> const & delimiter, int maxsize);
+
+
+	// Receive a string from the socket (assumed null terminated)
+	string recvString(SockWrapper const & wrapper, int maxsize);
+
+	// Receive a string from socket (null terminated)
+	string recvString(SockWrapper const & wrapper, vector<char>& r, 
+		int maxsize);
+
+	// Send a string over the socket (automatically null terminates)
+	void sendString(SockWrapper const & wrapper, string const & message);
+
+	// Send a file meant to be recvd into a file
+	void sendFile(SockWrapper const & wrapper, string const & filename);
+	void recvFile(SockWrapper const & wrapper, string const & path);
+
+	// Just dump the file into a socket
+	void sendRawFile(SockWrapper const & wrapper, 
+		string const & filename);
+	</span>
+	</code></pre></div>
+
+	<h1 id="Server">A Multithreaded Server</h2>
+	<p>The server runs a configurable number of worker threads, each of which continuously pop connections off of a blocking queue and process them by calling the abstract method "handleIncoming", an abstract function that takes a SockWrapper as input.  The following is the Server api:</p>
+
+	<div class="highlight">
+	<pre><code class="language-html" data-lang="html">
+	<span class="nt">
+	Server();
+
+	// Overriden by class using it
+	virtual void handleIncoming(SockWrapper&& wrapper) = 0;
+
+	// Listen for connections, call handleIncoming when they arrive
+	void listen();
+	
+	</span>
+	</code></pre></div>
+
+	<h1 id="WebServer">Http Web Server</h1>
+	<p>The web server is implemented on top of the multithreaded server utility described above.  It parses HTTP requests, using a custom built HTTP parser.  It handles all requests for static files itself, generating appropriate HTTP responses and pushing them out.  When it detects a request for a dynamic page, it forks off a new process where it sets appropriate environmental variables and calls a configurable script to handle the request.  Currently the server implements part of the cgi protocol (but I hope to have it fully communicate with CGI in the future).  	The HTTP request and response utilities have the following API:</p>
+
+
+	<div class="highlight">
+	<pre><code class="language-html" data-lang="html">
+	<span class="nt">
+	struct HttpWrapper
+	{
+		void addHeader(HttpHeader header); // add a header
+		shared_ptr<HttpHeader> getHeader(string headerName);
+		void removeHeader(string headerName);
+
+		vector<char> unparse(); // unparse into buffer
+	};
+
+	struct HttpResponse
+	: public HttpWrapper
+	{
+		string m_type;
+		ResponseStatus m_status;
+
+		HttpResponse(string const & type, ResponseStatus status);
+	};
+
+	struct HttpRequest
+	: public HttpWrapper
+	{
+		RequestType m_type;
+		string m_path;
+		string m_host;
+		string m_params;
+		int headerlen;
+
+		HttpRequest(RequestType type, string host, string path);
+
+		void parse(vector<char> buf, bool proxy);
+		void changeHost(string host);
+	};
+
+	// Parse request from buffer
+	HttpRequest parseRequest(vector<char> parse, bool proxy);	
+	</span>
+	</code></pre></div>
+
+	<h1 id="FrontEnd">Front End</h1>
+	The front end page generation scripts are implemented in python.
+
+</div>
+
+<div class="col-md-3" role="complementary">
+	<nav id = "scroller" class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" data-spy="affix" data-offset-top="50">
+	<ul class="nav bs-docs-sidenav">
+	<li><a href="#SockWrapper">SockWrapper</a></li>
+	<li><a href="#SockServer">SockServer</a></li>
+	<li><a href="#Server">Server</a></li>
+	<li><a href="#WebServer">Web Server</a></li>
+	<li><a href="#FrontEnd">Front End</a></li>
+	</ul>
+	</nav>	
+</div>
+</div>
+
 </div>

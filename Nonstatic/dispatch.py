@@ -8,6 +8,7 @@ def error():
 class post:
 	title = ''
 	body = ''
+	mid = ''
 
 def handleBlog(params):
 	path = params['name']
@@ -27,6 +28,7 @@ def handleBlog(params):
 		p = post()
 		p.body = body
 		p.title = title
+		p.mid = '_'.join(title.split())
 		posts.append(p)
 
 	print render.render('blog.html', {'title':'Blog', 'posts':posts})

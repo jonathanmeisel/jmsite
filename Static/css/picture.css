@@ -1,28 +1,45 @@
-.bs-docs-masthead {
-	    	background:  url("../images/ref2.jpg") no-repeat center center; 
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
+.highlight {
+	padding: 0;
 }
 
-#second {
-	    	background:  url("../images/usq.jpg") no-repeat center center; 
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
+.bs-docs-sidebar .nav>li>a:hover, .bs-docs-sidebar .nav>li>a:focus, .bs-docs-sidebar .nav>.active>a {
+	padding-left: 19px;
+	color: #000000;
+	text-decoration: none;
+	background-color: transparent;
+	border-left: none;
 }
 
-#second .container {
-	background-color:rgba(0,0,0,0.45);
+.affix-top {
+	position: 50px;
+}
+
+
+#frontpage {
+	background:  url("../images/ref2.jpg") no-repeat center center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+
+#frontpage .container {
+	background-color:rgba(0,0,0,0.15);
 	-moz-border-radius: 5px;
   	border-radius: 5px;
 }
 
+#imagepage {
+	background:  url("../images/usq.jpg") no-repeat center center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
 
-.bs-docs-masthead .container {
-	background-color:rgba(0,0,0,0.15);
+#imagepage .container {
+	background-color:rgba(0,0,0,0.45);
 	-moz-border-radius: 5px;
   	border-radius: 5px;
 }
