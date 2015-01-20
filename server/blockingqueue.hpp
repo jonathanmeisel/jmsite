@@ -2,7 +2,8 @@
  * blockingqueue.cpp
  *
  *  Created on: Dec 15, 2014
- *      Author: jonathanmeisel
+ *      Adapted from Juan's C++ blog
+ *		https://juanchopanzacpp.wordpress.com/2013/02/26/concurrent-queue-c11/
  */
 
 #include <queue>

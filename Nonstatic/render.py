@@ -1,6 +1,9 @@
 """
 @summary: Has all the necessary functions needed to render a page to HTML. 
 @author: Abhishek Shrivastava <i.abhi27 [at] gmail [dot] com>
+
+Copyright (c) 2011, Abhishek Shrivastava <i.abhi27[at]gmail[dot]com>.
+All rights reserved.
 """
 import re
 import sys

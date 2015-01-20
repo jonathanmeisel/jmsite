@@ -3,6 +3,9 @@ Yet Another Python Templating Utility, Version 1.2, by Alex Martelli.
 http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/52305
 (Specialized to HTML and modified by Peter Norvig.)
 (Further modified by Abhishek Shrivastava for use in min.py ONLY)
+
+Copyright (c) 2011, Abhishek Shrivastava <i.abhi27[at]gmail[dot]com>.
+All rights reserved.
 """
 
 import sys

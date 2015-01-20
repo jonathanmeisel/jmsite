@@ -1,7 +1,7 @@
 <div class="container"> 
 <div class="row">
 <div class="col-md-9" role="main">
-	<h1 id="about">About this website</h1>
+	<h1 id="about">This website</h1>
 	<p>This is an (almost) entirely homegrown website.  It runs on top of a simple multi-threaded server implemented in C++ that directly handles all static content.  Dynamic content is generated through python scripts. The python scripts and server interact through a simplified version of the CGI protocol (hopefully both will have full CGI support in the future).  The various components that form the website, most of which can function separately, are listed below.  The code is available on <a href="https://github.com/jonathanmeisel">github</a>.</p>
 
 	<h1 id="SockWrapper">SockWrapper</h2>
@@ -72,7 +72,7 @@
 	</code></pre></div>
 
 	<h1 id="Server">A Multithreaded Server</h2>
-	<p>The server runs a configurable number of worker threads, each of which continuously pop connections off of a blocking queue and process them by calling the abstract method "handleIncoming", an abstract function that takes a SockWrapper as input.  The following is the Server api:</p>
+	<p>The server runs a configurable number of worker threads, each of which continuously pop connections off of a blocking queue and process them by calling the abstract method "handleIncoming", an abstract function that takes a SockWrapper as input.  The blockinq queue is adapted from <a href="https://juanchopanzacpp.wordpress.com/2013/02/26/concurrent-queue-c11">Juan's C++ blog</a>.  The following is the Server api:</p>
 
 	<div class="highlight">
 	<pre><code class="language-html" data-lang="html">
@@ -134,12 +134,14 @@
 	</code></pre></div>
 
 	<h1 id="FrontEnd">Front End</h1>
-	The front end page generation scripts are implemented in python.
+	<p>
+	The front end page generation scripts are implemented in python. A central controller (dispatch.py) parses the URL path and parameters, calling functions to generate the appropriate pages.  HTML templating is handled by a modified version of the Yaptu templating engine (created by <a href="https://github.com/abhishekdelta/min.py">Abhishek Shrivastava</a>).
+	</p>
 
 </div>
 
 <div class="col-md-3" role="complementary">
-	<nav id = "scroller" class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" data-spy="affix" data-offset-top="50">
+	<nav id = "scroller" class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" data-spy="affix">
 	<ul class="nav bs-docs-sidenav">
 	<li><a href="#SockWrapper">SockWrapper</a></li>
 	<li><a href="#SockServer">SockServer</a></li>

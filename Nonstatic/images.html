@@ -1,24 +1,27 @@
 
     <!-- Docs page layout -->
-    <main class="bs-docs-masthead images" id="imagepage" role="main">
+    <!--<main class="bs-docs-masthead images" id="imagepage" role="main">
     <div class="container" id="headercontainer">
     <br><br>
     <h1>Photos</h1>
     <br><br>
     </div>
-    </main>
+    </main>-->
 
-    <div class="bs-docs-featurette">
+<div class="container">
 
-+ for image in imageslist:
+<center><h1 class="page-header">Photography</h1></center>
+
++ for i in range(0, len(imageslist)):
++   if i % 2 == 0:     
       <div class="row">
-        <div class="col-sm-2">
-        </div> 
-        <div class="col-sm-8">
-          <img class="img-responsive" src="imagepage/%(image)s">
-        </div> 
-        <div class="col-sm-2">
-        </div>
+-
+    <div class="col-sm-6">
+      <img class="img-responsive" src="imagepage/%(imageslist[i])s">
+    </div> 
+
++   if i % 2 == 1:     
       </div>
 -
-    </div>
+-
+</div>

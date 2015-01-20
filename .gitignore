@@ -7,3 +7,4 @@ webserver
 *.cfg
 .DS_STORE
 *.dSYM/
+/Static/shayla*
