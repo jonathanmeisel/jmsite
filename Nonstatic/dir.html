@@ -1,0 +1,28 @@
+
+<div class="container">
+<ul class="list-group">
+
+<div class="list-group">
++ for f in files:
+	  
+	   <li class="list-group-item">
+	    <h6 class="list-group-item-heading">
+	    <a href="%(f.path)s">
+	    %(f.name)s 
+	    </a>
++ if f.reg:
+	    <a href="%(f.path)s?download=true">
+	    (download)
+-
+	    </a>
+	    </h5>
+	  </li>
+-
+</div>
+<li class="list-group-item">
+<h6 class="list-group-item-heading">
+<a href="..">Up One Level</a>
+</h6>
+</li>
+</ul>
+</div>

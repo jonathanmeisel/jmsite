@@ -1,0 +1,5 @@
+echo "
+rdr pass on lo0 inet proto tcp from any to self port 80 -> 127.0.0.1 port 3000
+rdr pass on en0 inet proto tcp from any to any port 80 -> 127.0.0.1 port 3000
+rdr pass on en1 inet proto tcp from any to any port 80 -> 127.0.0.1 port 3000
+" | sudo pfctl -ef -

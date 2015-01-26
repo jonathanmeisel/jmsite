@@ -686,3 +686,5 @@ N/A=application/andrew-inset
 .zip=application/zip
 .zmm=application/vnd.handheld-entertainment+xml
 .zaz=application/vnd.zzazz.deck+xml
+.mp3=audio/mpeg
+

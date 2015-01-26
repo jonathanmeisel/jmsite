@@ -211,7 +211,13 @@ void HttpWebServer::handleIncoming(SockWrapper&& wrapper)
 			return;
 		}
 
-		if (mimetypes.count(suffix) > 0)
+		if (requestR.m_params.find("download=true") != std::string::npos)
+		{
+			HttpResponse response{"application/octet-stream", OK};
+			sendResponse(std::move(wrapper), response, path);
+		}
+
+		else if (mimetypes.count(suffix) > 0)
 		{
 			HttpResponse response{mimetypes.at(suffix), OK};
 			sendResponse(std::move(wrapper), response, path);

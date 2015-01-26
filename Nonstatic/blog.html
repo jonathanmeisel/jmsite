@@ -3,7 +3,7 @@
 <div class="col-md-9" role="main">
 		
 + for post in posts:
-	<h2 class="page-header" id="%(post.mid)s">
+	<h2 id="%(post.mid)s">
 	%(post.title)s
 	</h2>
 	<p>%(post.body)s</p>
@@ -11,11 +11,11 @@
 </div>
 
 <div class="col-md-3" role="complementary">
-	<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" data-spy="affix">
+	<nav id="scroller" class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" data-spy="affix">
 	<ul class="nav bs-docs-sidenav">
 + for post in posts:
 	<li><a href="#%(post.mid)s">
-		%(post.title)s
+	%(post.title)s
 	</a></li>
 -
 	</ul>

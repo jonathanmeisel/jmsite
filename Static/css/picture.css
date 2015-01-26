@@ -1,9 +1,28 @@
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+	background-color: #4e505c;
+}
+
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+	color: #4e505c;
+}
+
+.pagination>li>a, .pagination>li>span {
+	color: #4e505c;
+}
+
 .highlight {
 	padding: 0;
 }
 
 .bs-docs-sidebar .nav>li>a:hover, .bs-docs-sidebar .nav>li>a:focus, .bs-docs-sidebar .nav>.active>a {
 	padding-left: 19px;
+	color: #000000;
+	text-decoration: none;
+	background-color: transparent;
+	border-left: none;
+}
+
+.bs-docs-sidebar .nav>.active>a, .bs-docs-sidebar .nav>.active:hover>a, .bs-docs-sidebar .nav>.active:focus>a {
 	color: #000000;
 	text-decoration: none;
 	background-color: transparent;
@@ -19,7 +38,7 @@
 }
 
 #frontpage {
-	background:  url("../images/ref2.jpg") no-repeat center center; 
+	background:  url("../images/wburg_stormy.jpg") no-repeat center center; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -28,7 +47,7 @@
 
 
 #frontpage .container {
-	background-color:rgba(0,0,0,0.15);
+	background-color:rgba(0,0,0,0.45);
 	-moz-border-radius: 5px;
   	border-radius: 5px;
 }

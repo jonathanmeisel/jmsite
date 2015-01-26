@@ -5,6 +5,7 @@
  *      Author: jonathanmeisel
  */
 #include <iostream>
+#include <boost/algorithm/string.hpp>
 #include "http.h"
 #include "string.h"
 
@@ -288,6 +289,10 @@ HttpRequest parseRequest(std::vector<char> parse, bool proxy)
 	}
 
 	HttpRequest request{type, host, path};
+
+	boost::replace_all(params, "%20", " ");
+	boost::replace_all(request.m_path, "%20", " ");
+
 	request.headerlen = len;
 	request.m_params = params;
 

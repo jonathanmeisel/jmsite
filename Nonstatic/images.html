@@ -10,18 +10,30 @@
 
 <div class="container">
 
-<center><h1 class="page-header">Photography</h1></center>
-
-+ for i in range(0, len(imageslist)):
-+   if i % 2 == 0:     
-      <div class="row">
+<center>
+<nav>
+  <ul class="pagination">
++ for key in order:
++   if (key == name): 
+      <li class="active"><a href="images?gallery=%(key)s">
 -
-    <div class="col-sm-6">
-      <img class="img-responsive" src="imagepage/%(imageslist[i])s">
++   if (key != name):
+      <li><a href="images?gallery=%(key)s">
+-
+    %(names[key])s
+    </a></li>
+-
+  </ul>
+</nav>
+
++ for imageRow in imagesList:
+    <div class="row">
++   for image in imageRow:
+    <div class="col-sm-%(12 / len(imageRow))s">
+      <img class="img-responsive" src="images/%(image)s">
     </div> 
 
-+   if i % 2 == 1:     
-      </div>
--
+-   
+   </div>
 -
 </div>
