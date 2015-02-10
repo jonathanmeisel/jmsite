@@ -1,1 +1,3 @@
+This is my almost entirely homegrown website.  The blocking queue was adapted Adapted from "Juan's C++ blog" (https://juanchopanzacpp.wordpress.com/2013/02/26/concurrent-queue-c11), while the python templating engine was adapted from Abhishek Shrivastava's min.py (https://github.com/abhishekdelta/min.py).
 
+There are various elements to the website, some of which can be used as standalone c++ utilities.  The "server" utility creates a generic multithreaded server.  The socket utilities create objects to wrap "c" sockets and define various functions to send information through them.  
