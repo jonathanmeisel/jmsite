@@ -13,20 +13,20 @@
 <center>
 <nav>
   <ul class="pagination">
-+ for key in order:
-+   if (key == name): 
-      <li class="active"><a href="images?gallery=%(key)s">
++ for image in images:
++   if (image.key == gallery.key): 
+      <li class="active"><a href="images?gallery=%(image.key)s">
 -
-+   if (key != name):
-      <li><a href="images?gallery=%(key)s">
++   if (image.key != gallery.key):
+      <li><a href="images?gallery=%(image.key)s">
 -
-    %(names[key])s
+    %(image.title)s
     </a></li>
 -
   </ul>
 </nav>
 
-+ for imageRow in imagesList:
++ for imageRow in gallery.images:
     <div class="row">
 +   for image in imageRow:
     <div class="col-sm-%(12 / len(imageRow))s">

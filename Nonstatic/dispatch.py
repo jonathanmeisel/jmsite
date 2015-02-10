@@ -65,50 +65,54 @@ def handleBlog(params):
 
 	print render.render('blog.html', {'title':'Blog', 'posts':posts})
 
-def handleImages(params):
+class ImagePage:
+
+	def __init__(self):
+		self.title = ''
+		self.key = ''
+		self.images = []
+
+def getImages():
+	imagefile = open('images.txt', 'r')
+	imagepages = imagefile.read().split('\n#\n')
+
+	ips = []
+	keyedips = {}
+
+	for page in imagepages:
+		rows = page.split('\n')
+		
+		if len(rows) < 2:
+			continue
+		
+		firstrow = rows[0].split(' ', 1)
+		if len(firstrow) < 2:
+			continue
+
+		ip = ImagePage()
+		ip.key = firstrow[0]
+		ip.title = firstrow[1]
+
+		for i in range(1, len(rows)):
+			r = rows[i].split(' ')
+			ip.images.append(rows[i].split(' '))
+
+		ips.append(ip)
+		keyedips[ip.key] = ip
+
+	return ips, keyedips
+
+
+def handleImages(params, ips, keyedips):
+	name = ''
 	# Either it's the parameter, or default
 	if params.has_key('gallery'):
 		name = params['gallery']
-	else:
-		name = ''
 
-	# File containing image layout
-	imagefile = open('images.txt', 'r')
-	# The images that belong on each page
-	images = {}
+	if not keyedips.has_key(name):
+		name = ips[0].key
 
-	imagepage = []
-
-	# Order of tabs
-	order = []
-	imagepagename = ''
-
-	# Names of the images verse keys
-	names = {}
-	
-	for line in imagefile:
-		if line.startswith('//'):
-			if len(imagepage) > 0:
-				images[imagepagename] = imagepage
-				imagepage = []
-
-			pagedata = line.rstrip('\n').strip('//').split(' ', 1)
-			if len(pagedata) < 2:
-				continue
-			imagepagename = pagedata[0]
-			names[imagepagename] = pagedata[1]
-			order.append(imagepagename)
-			if name == '':
-				name = imagepagename
-			continue
-
-		row = line.split(' ')
-		imagepage.append(row)
-
-	if not images.has_key(name):
-		error()
-
-	print render.render('images.html', {'title':'images', 'imagesList':images[name], 'names':names, 'name':name, 'order':order})
+	print render.render('images.html', {'title':'images', 'gallery':keyedips[name], 'images':ips})
 
 path = os.environ['QUERY_PATH']
 
@@ -127,7 +131,8 @@ for setting in paramlist:
 staticfiles = '../Static/'
 
 if (path == 'images'):
-	handleImages(params)
+	ips, keyedips = getImages()
+	handleImages(params, ips, keyedips)
 elif (path == 'index'):
 	print render.render('index.html', {'title':"Jonathan Meisel's Website"})
 elif (path == 'about'):
