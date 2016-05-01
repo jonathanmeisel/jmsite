@@ -86,7 +86,8 @@ void HttpWebServer::setEnvs(HttpRequest const & request, std::unordered_map<std:
 
 void HttpWebServer::sendResponseFunction(SockWrapper&& wrapper, HttpRequest const & request)
 {
-	thread_local ProcessManager pm{m_bindir};
+	//std::string bindir{"/Users/jonathanmeisel/site/jmsite/Nonstatic"};
+	ProcessManager pm{m_bindir};
 
 	// write out message to the log file
 	std::string log;
@@ -240,7 +241,7 @@ int main(int argc, char ** argv)
 	try
 	{
 		HttpWebServer server{};
-		readConfig("server.cfg", server);
+		readConfig("web/server.cfg", server);
 		loadMimeTypes();
 		server.listen();
 	}

@@ -9,6 +9,7 @@
 #define SERVER_HPP_
 
 #include "server.h"
+#include "DateTime.h"
 
 void loggingThread(std::shared_ptr<Queue<std::string>> qp, std::string logfile)
 {
@@ -17,7 +18,11 @@ void loggingThread(std::shared_ptr<Queue<std::string>> qp, std::string logfile)
 	while (true)
 	{
 		std::string out = qp->pop();
-		file << out << std::endl;
+
+		DateTime time{};
+		std::string timestr = time.toString();
+
+		file << timestr << ": " << out << std::endl;
 	}
 }
 

@@ -278,7 +278,7 @@ int SockWrapper::recvM(std::vector<char>& r) const
 {
 	m_impl->check();
 
-	thread_local char receive[RECV_BUFFER];
+	char receive[RECV_BUFFER];
 	int numbytes = 0;
 
 	numbytes = recv(m_impl->m_fd, receive, RECV_BUFFER, 0);

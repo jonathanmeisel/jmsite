@@ -91,6 +91,7 @@ ProcessData const & ProcessManager::startNewCommand(std::string command, std::un
 	if (childPid == 0)
 	{
 		chdir(m_dir.c_str());
+		
 		//set envs
 		for ( auto it = env.begin(); it != env.end(); ++it )
 		{
