@@ -7,3 +7,6 @@ color Color
 james.jpg ref2.jpg
 baybridge.jpg mwsq.jpg mflowers.jpg
 ref1.jpg mbridge.jpg
+#
+seattle Seattle
+seattle.jpg
