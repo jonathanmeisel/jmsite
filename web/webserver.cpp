@@ -91,14 +91,11 @@ void HttpWebServer::sendResponseFunction(SockWrapper&& wrapper, HttpRequest cons
 
 	// write out message to the log file
 	std::string log;
+
+	log += "\t";
 	log += request.m_path;
 	log += "\t";
 	log += wrapper.getAddress();
-	log += "\t";
-
-	// add the time to the log
-	try {log += DateTime{}.toString(); }
-	catch (...) {}
 
 	m_messages->push(log);
 
@@ -211,6 +208,10 @@ void HttpWebServer::handleIncoming(SockWrapper&& wrapper)
 			wrapper.sendM(m_notFound);
 			return;
 		}
+
+		// std::string message{"Sending file: "};
+		// message += path;
+		// m_messages->push(message);
 
 		if (requestR.m_params.find("download=true") != std::string::npos)
 		{

@@ -2,9 +2,13 @@
 .project
 .settings/
 webserver
+*.jpg
 *.o
 *.log
 *.cfg
-.DS_STORE
+*.pyc
+*.DS_STORE
 *.dSYM/
 /Static/shayla*
+/Static/musiclalalala3*
+tags

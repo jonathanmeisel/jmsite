@@ -43,8 +43,11 @@ def handleDir(path, staticfiles):
 	print render.render('dir.html', {'title':path, 'files':files})
 
 def handleBlog(params):
-	path = params['name']
-	path = 'blog/' + path
+	try:
+		path = params['name']
+		path = 'blog/' + path
+	except:
+		error()
 
 	if not os.path.isfile(path):
 		error()

@@ -17,12 +17,16 @@ void loggingThread(std::shared_ptr<Queue<std::string>> qp, std::string logfile)
 	file.open(logfile, std::ios::app);
 	while (true)
 	{
-		std::string out = qp->pop();
+		try
+		{
+			std::string out = qp->pop();
 
-		DateTime time{};
-		std::string timestr = time.toString();
+			DateTime time{};
+			std::string timestr = time.toString();
 
-		file << timestr << ": " << out << std::endl;
+			file << timestr << ": " << out << std::endl;
+		}
+		catch (...) {}
 	}
 }
 
@@ -44,6 +48,7 @@ void Server::listen()
 
 	// Create a server listening on the specific port
 	SockServer sserver{m_port, 10};
+
 	std::shared_ptr<Queue<SockWrapper>> qp{new Queue<SockWrapper>{max_queued}};
 
 	// start the right number of responder threads
@@ -63,9 +68,9 @@ void Server::listen()
 			SockWrapper wrapper = sserver.acceptConnection();
 			qp->push(std::move(wrapper));
 		}
-		catch (SocketError& e)
+		catch (...)
 		{
-			m_messages->push(e.m_message);
+			std::cout << "Exception thrown while accepting connection." << std::endl;
 		}
 	}
 }

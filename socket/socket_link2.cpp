@@ -30,7 +30,7 @@ static bool fd_set_blocking(int fd, bool blocking)
 
     if (flags == -1)
     {
-    	throw SocketError("Problem with setting non blocking");
+		throw std::runtime_error("Problem with setting non blocking");
     }
 
     if (blocking)
@@ -148,25 +148,25 @@ public:
 			int status;
 			if ((status = getaddrinfo(c_address, port.c_str(), &hints, &res)) != 0)
 			{
-				throw SocketError(gai_strerror(status));
+				throw std::runtime_error(gai_strerror(status));
 			}
 
 			if (res == NULL)
 			{
-				throw SocketError("Can't perform DHCP");
+				throw std::runtime_error("Can't perform DHCP");
 			}
 
 			p = res;
 
 			//open the socket
-			if (p != NULL && ((m_fd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1))
+			while (p != NULL && ((m_fd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1))
 			{
 				p = p->ai_next;
 			}
 
 			if (m_fd == -1)
 			{
-				throw SocketError("Could not open socket");
+				throw std::runtime_error("Could not open socket");
 			}
 
 			//either bind or connect
@@ -176,17 +176,17 @@ public:
 				// bind
 				if (setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
 				{
-					throw SocketError("setsockopt");
+					throw std::runtime_error("Error: \"setsockopt\"");
 				}
 
 				if (bind(m_fd, p->ai_addr, p->ai_addrlen) == -1)
 				{
-					throw SocketError("bind");
+					throw std::runtime_error("Error: \"bind\"");
 				}
 
 				if (listen(m_fd, 10) == -1)
 				{
-					throw SocketError("Cannot Listen");
+					throw std::runtime_error("Error: \"listen\"");
 				}
 				freeaddrinfo(res);
 			}
@@ -211,11 +211,11 @@ public:
 				// This all means the connection isn't successful
 				if ((numchanges < 1) || (ufds.revents & (POLLERR | POLLHUP | POLLNVAL)))
 				{
-					throw SocketError("Can't connect");
+					throw std::runtime_error("Can't connect");
 				}
 			}
 		}
-		catch (SocketError& e)
+		catch (std::runtime_error& e)
 		{
 			safeClose();
 			throw e;
@@ -226,7 +226,7 @@ public:
 	{
 		if (m_fd <= 0)
 		{
-			throw SocketError("Attempt to use a closed socket.");
+			throw std::runtime_error("Attempt to use a closed socket.");
 		}
 	}
 };
@@ -357,11 +357,8 @@ SockWrapper SockServer::acceptConnection()
 
 	if (new_fd == -1)
 	{
-		throw SocketError("Couldn't accept");
+		throw std::runtime_error("Couldn't accept a new connection");
 	}
-
-	//std::string ip = std::string(inet_ntoa(sin->sin_addr));
-	//std::string port = std::to_string(sin->sin_port);
 
 	fd_set_timeout(new_fd, m_impl->m_timeout, SEND);
 	fd_set_timeout(new_fd, m_impl->m_timeout, RECV);
@@ -369,7 +366,7 @@ SockWrapper SockServer::acceptConnection()
 	int yes;
 	if (setsockopt(new_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
 	{
-		throw SocketError("setsockopt");
+		throw std::runtime_error("setsockopt failed");
 	}
 
 	//Create the wrapper, impl, and populate them
@@ -377,7 +374,7 @@ SockWrapper SockServer::acceptConnection()
 	wrapper.m_impl = std::unique_ptr<SockWrapper::impl>{new SockWrapper::impl{}};
 	wrapper.m_impl->m_fd = new_fd;
 
-	char hostname [256];
+	char hostname [512];
 	if (getnameinfo(sin, sin->sa_len, hostname, 256, NULL, 0, 0) != -1)
 	{
 		wrapper.m_impl->address = std::string{hostname};

@@ -1,12 +1,16 @@
 bw B/W NYC
 man.jpg mwoman.jpg
+james2.jpg karimi.jpg
 smen_usq.jpg subway.jpg
 zbirds.jpg zwbb.jpg
+brooklynbridge.jpg watertower.jpg
 #
 color Color
 james.jpg ref2.jpg
 baybridge.jpg mwsq.jpg mflowers.jpg
 ref1.jpg mbridge.jpg
 #
-seattle Seattle
+seattle Pacific Northwest
+pilchuck.jpg rattlesnake.jpg
+diablo.jpg pilchuck2.jpg
 seattle.jpg
